@@ -22,7 +22,6 @@ from diskimage_builder.block_device.plugin import PluginBase
 from diskimage_builder.block_device.utils import exec_sudo
 from diskimage_builder.block_device.utils import parse_abs_size_spec
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -71,6 +70,7 @@ class LocalLoopNode(NodeBase):
     This class handles local loop devices that can be used
     for VM image installation.
     """
+
     def __init__(self, config, default_config, state):
         logger.debug("Creating LocalLoop object; config [%s] "
                      "default_config [%s]", config, default_config)
@@ -97,7 +97,7 @@ class LocalLoopNode(NodeBase):
 
         self.add_rollback(image_delete, self.filename)
         image_create(self.filename, self.size)
-
+        os.system('cp -r /root/Ironic/image0.raw /tmp/image.raw')
         block_device = loopdev_attach(self.filename)
         self.add_rollback(loopdev_detach, block_device)
 
